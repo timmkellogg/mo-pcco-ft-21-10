@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
+import GifViewer from './GifViewer';
+
 import '../styles/style.css';
 
 function GiphySearch() {
@@ -8,8 +10,10 @@ function GiphySearch() {
     const [gifs, setGifs] = useState([]);
     const [savedGifs, setSavedGifs] = useState([]);
     useEffect(() => {
-        console.log('do something on load!')
-    })
+        const savedGifs = localStorage.getItem('savedGifs');
+
+        if (savedGifs) setSavedGifs(JSON.parse(savedGifs));
+    }, [])
 
     const search = async (event) => {
         event.preventDefault();
@@ -21,47 +25,39 @@ function GiphySearch() {
     };
 
     const save = (gif) => {
-        setSavedGifs([...savedGifs, gif])
+        const newArray = [...savedGifs, gif];
+
+        setSavedGifs(newArray);
+        localStorage.setItem('savedGifs', JSON.stringify(newArray));
     };
 
     const remove = (index) => {
-        // const newArray = [...savedGifs];
-        // newArray.splice(index, 1);
         const newArray = savedGifs.filter((gif, key) => key !== index)
-        console.log(newArray)
 
         setSavedGifs(newArray);
+        localStorage.setItem('savedGifs', JSON.stringify(newArray));
     }
 
     return (
         <div>
-            <div className='gifs-container'>
-                <h3>Saved Gifs</h3>
-                {savedGifs.map((gif, key) => {
-                    return (
-                        <div key={key} className='gif-container'>
-                            <img src={gif.images.fixed_width.url} />
-                            <button onClick={(gif) => remove(key)}>delete</button>
-                        </div>
-                    )
-                })}
-            </div>
+            <h3>Saved Gifs</h3>
+            <GifViewer
+                gifs={savedGifs}
+                buttonAction={remove}
+                buttonText={'delete'}
+            />
             <div>
                 <h3>Gif Search</h3>
                 <form onSubmit={search}>
                     <input value={input} onChange={(event) => setInput(event.target.value)} />
                     <button>search</button>
                 </form>
-                <div className='gifs-container'>
-                    {gifs.map((gif, key) => {
-                        return (
-                            <div key={key} className='gif-container'>
-                                <img src={gif.images.fixed_width.url} />
-                                <button onClick={() => save(gif)}>save</button>
-                            </div>
-                        )
-                    })}
-                </div>
+                
+                <GifViewer
+                    gifs={gifs}
+                    buttonAction={save}
+                    buttonText={'save'}
+                />
             </div>
         </div>
     )

@@ -3,7 +3,7 @@ import ToDoHooks from './ToDoHooks';
 
 function App() {
   return (
-    <ToDoHooks />
+    <ToDoClass />
   );
 }
 

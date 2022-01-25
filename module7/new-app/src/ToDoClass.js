@@ -1,10 +1,22 @@
 import React from 'react';
 
+const ListItem = ({ key, item }) => (
+    <li key={key}>{item}</li>
+)
+
 class ToDoClass extends React.Component {
     state = {
         toDoInput: '',
         toDoList: ['get milk', 'teach class', 'be awesome']
     };
+
+    componentDidMount = () => {
+        
+    }
+
+    componentDidUpdate = () => {
+        
+    }
 
     addToDo = () => {
         if (!this.state.toDoInput) return;
@@ -13,7 +25,7 @@ class ToDoClass extends React.Component {
 
         newList.push(this.state.toDoInput);
 
-        this.setState({ toDoList: newList, toDoInput: '' });
+        console.log(this.state.toDoList)
     };
 
     handleChangeInput = (event) => {
@@ -29,7 +41,7 @@ class ToDoClass extends React.Component {
                 <ul>
                     {this.state.toDoList.map((item, key) => {
                         return (
-                            <li key={key}>{item}</li>
+                            <ListItem item={item} key={key} />
                         )
                     })}
                 </ul>

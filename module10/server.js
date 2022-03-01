@@ -3,6 +3,8 @@ import express from 'express';
 const app = express();
 const port = 3001;
 
+app.use(express.urlencoded({ extended: false }))
+
 const db = {
     items: [{
         item: 'carrots',
@@ -24,16 +26,16 @@ const db = {
     ]
 };
 
-app.get('/test', (req, res) => {
-    res.send('Hello world');
+app.get('/', (req, res) => {
+    res.send('<html><body><form></form></body></html>');
+});
+
+app.get('/portfolio', (req, res) => {
+    res.send('<html><body>Portfolio Page</body></html>');
 });
 
 app.get('/items', (req, res) => {
-    res.send(db.items);
-});
-
-app.get('/users', (req, res) => {
-    res.send(db.users);
+    res.json(db.items);
 });
 
 app.get('/users/create/:username/:password', (req, res) => {
@@ -43,6 +45,21 @@ app.get('/users/create/:username/:password', (req, res) => {
     })
     res.send('users added')
 });
+
+app.get('/users', (req, res) => {
+    res.json(db.users);
+});
+
+app.post('/users', (req, res) => {
+    res.json(req.body);
+})
+
+//CRUD
+//GET - READ, no body
+//POST - CREATE send body
+//PUT - UPDATE or CREATE (if none) send body
+//PATCH - UPDATE send body
+//DELETE - DELETE body optional ?
 
 app.listen(port, () => {
     console.log(`app listening on port ${port}`)

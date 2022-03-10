@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-mongoose.connect('mongodb+srv://admin:timpass@cluster0.izinz.mongodb.net/GiphyApp?retryWrites=true&w=majority');
+mongoose.connect('YOURMONGOSTRINGGOESHERE');
 
 const User = mongoose.model('User', { username: String });
 

@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 
 import authenticateJWT from './middleware/authenticateJWT.js';
 
-mongoose.connect('mongodb+srv://admin:timpass@cluster0.izinz.mongodb.net/GiphyApp?retryWrites=true&w=majority');
+mongoose.connect('YOURMONGOSTRINGGOESHERE');
 
 import authRouter from './routes/auth.js';
 import gifRouter from './routes/gifs.js';

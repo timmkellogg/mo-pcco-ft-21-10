@@ -6,12 +6,12 @@ const UserSchema = new mongoose.Schema({
         type: String,
         unique: true
     },
-    password: String
+    password: String,
+    gifs: [{ type: mongoose.Schema.Types.ObjectId, ref: 'gif' }]
 })
 
 UserSchema.pre('save', function (next) {
     const user = this;
-
 
     if (user.isModified('password') || user.isNew) {
         bcrypt.genSalt(10, function (saltError, salt) {
@@ -32,5 +32,12 @@ UserSchema.pre('save', function (next) {
         return next();
     }
 })
+
+UserSchema.methods.comparePassword = function(candidatePassword, cb) {
+    bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
+        if(err) return cb(err);
+        cb(null, isMatch);
+    })
+}
 
 export default mongoose.model('user', UserSchema);

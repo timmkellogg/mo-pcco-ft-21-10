@@ -1,10 +1,11 @@
+import 'dotenv/config';
 import express from 'express';
 import path from 'path';
 import mongoose from 'mongoose';
 
 import authenticateJWT from './middleware/authenticateJWT.js';
 
-mongoose.connect('YOURMONGOSTRINGGOESHERE');
+mongoose.connect(process.env.MONGO_URL);
 
 import authRouter from './routes/auth.js';
 import gifRouter from './routes/gifs.js';

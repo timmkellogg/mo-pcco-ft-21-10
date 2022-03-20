@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 
 import User from '../models/User.js';
 
-const accessTokenSecret = 'somerandomaccesstoken';
+const accessTokenSecret = process.env.JWT_SECRET;
 
 const router = express.Router();
 
@@ -14,7 +14,12 @@ router.post('/login', (req, res) => {
         if(err || !user) {
             res.status(401).json('user does not exist');
         } else {
-            if(user.password === password) {
+           user.comparePassword(password, (err, isMatch) => {
+               if(err) {
+                   console.log(error);
+               } 
+
+               if(isMatch) {
                 const accessToken = jwt.sign(
                     { username: user.username, id: user._id }, //token
                     accessTokenSecret, // secret used to sign token
@@ -22,9 +27,8 @@ router.post('/login', (req, res) => {
                 )
         
                 res.json(accessToken);
-            } else {
-                res.send('invalid password')
-            }
+               }
+           })
         }
     })
 })

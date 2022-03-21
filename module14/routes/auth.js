@@ -4,6 +4,8 @@ import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 
 const accessTokenSecret = process.env.JWT_SECRET;
+const refreshTokenSecret = process.env.REFRESH_SECRET;
+let refreshTokens = [];
 
 const router = express.Router();
 

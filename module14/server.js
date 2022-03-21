@@ -14,7 +14,7 @@ const app = express();
 const port = process.env.PORT || 3001;
 
 app.use(express.urlencoded({ extended: false }))
-
+app.use(express.json());
 
 app.use('/auth', authRouter);
 app.use('/gifs', authenticateJWT, gifRouter);

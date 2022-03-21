@@ -14,6 +14,10 @@ router.get('/', (req, res) => {
     })
 })
 
+router.get('/search/:input', async (req, res) => {
+    const response = await axios.get(`https://api.giphy.com/v1/gifs/search?q=${req.params.input}&api_key=${process.env.GIPHY_KEY}&rating=g&limit=10`);
+})
+
 router.post('/', (req, res) => {
     console.log(req.user)
     Gif.create({ url: req.body.url, user: req.user.id }, (err, gif) => {

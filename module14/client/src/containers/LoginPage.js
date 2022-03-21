@@ -16,7 +16,11 @@ function LoginPage() {
     const login = (e) => {
         e.preventDefault();
        
-        
+        console.log(username, password);
+
+        auth.signin(username, password).then(() => {
+            navigate(from);
+        })
     }
 
     return (

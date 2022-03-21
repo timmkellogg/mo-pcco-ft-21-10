@@ -27,11 +27,27 @@ router.post('/', (req, res) => {
 })
 
 router.put('/:id', (req, res) => {
-
+    Gif.findByIdAndUpdate(req.params.id, { url: req.body.url }, (err, result) => {
+        if(err) {
+            console.log(log);
+            res.send('error')
+        } else {
+            console.log(result);
+            res.send('success');
+        }
+    })
 })
 
 router.delete('/:id', (req, res) => {
-
+    Gif.findByIdAndDelete(req.params.id, (err, result) => {
+        if(err) {
+            console.log(err);
+            res.send('error');
+        } else {
+            console.log(result);
+            res.send('success');
+        }
+    })
 })
 
 export default router;

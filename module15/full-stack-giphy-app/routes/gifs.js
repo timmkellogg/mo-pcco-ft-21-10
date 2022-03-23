@@ -1,5 +1,6 @@
 import express from 'express';
 import Gif from '../models/Gif.js';
+import axios from 'axios';
 
 const router = express.Router();
 
@@ -14,8 +15,10 @@ router.get('/', (req, res) => {
     })
 })
 
-router.get('/search/:input', async (req, res) => {
-    const response = await axios.get(`https://api.giphy.com/v1/gifs/search?q=${req.params.input}&api_key=${process.env.GIPHY_KEY}&rating=g&limit=10`);
+router.get('/search', async (req, res) => {
+    const response = await axios.get(`https://api.giphy.com/v1/gifs/search?q=${req.query.input}&api_key=${process.env.GIPHY_KEY}&rating=g&limit=10`);
+
+    res.send(response.data.data);
 })
 
 router.post('/', (req, res) => {

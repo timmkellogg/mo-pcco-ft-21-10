@@ -16,10 +16,15 @@ function useProvideAuth() {
         localStorage.removeItem('user');
     }
 
+    const authHeader = () => {
+        return { Authorization: `Bearer ${user}`}
+    }
+
     return {
         user,
         signin,
-        signout
+        signout,
+        authHeader
     }
 }
 

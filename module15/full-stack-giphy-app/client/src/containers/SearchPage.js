@@ -1,14 +1,25 @@
 import axios from 'axios';
 import { useState } from 'react';
+import useProvideAuth from '../hooks/useProvideAuth';
+
+import GifViewer from '../components/GifViewer.js';
 
 function SearchPage() {
     const [input, setInput] = useState('');
+    const [gifs, setGifs] = useState([]);
+
+    const auth = useProvideAuth();
 
     const search = async () => {
         if (!input) return;
 
-        const res = await axios.get(`gifs/search/?input=${input}`);
-        console.log(res.data.data);
+        const res = await axios.get(`gifs/search/?input=${input}`, { headers: auth.authHeader() });
+        console.log(res.data);
+        setGifs(res.data);
+    }
+
+    const save = (url) => {
+        axios.post('gifs', { url }, { headers: auth.authHeader() })
     }
     
     return (
@@ -17,9 +28,11 @@ function SearchPage() {
 
             <input onChange={(e) => setInput(e.target.value)} />
             <button onClick={search}>search</button>
-            <ul>
-
-            </ul>
+            <GifViewer 
+                gifs={gifs}
+                buttonAction={save}
+                buttonText='Save'
+            />
         </div>
     )
 }

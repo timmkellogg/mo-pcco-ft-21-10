@@ -21,12 +21,17 @@ function SavedPage() {
         setGifs(res.data);
     }
 
+    const remove = async (id) => {
+        await axios.delete(`gifs/${id}`, {headers: auth.authHeader()});
+        await fetchGifs();
+    }
+
     return (
         <div>
             saved page
             <GifViewer 
                 gifs={gifs}
-                buttonAction={() => console.log('do this next')}
+                buttonAction={remove}
                 buttonText='Remove'
             />
         </div>
